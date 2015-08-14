@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="Marek" created="Fri Aug 14 10:01:10 CEST 2015" description="CSV To List&lt;ProjectCreate&gt;" guiVersion="3.4.4.P" id="1439544209456" licenseCode="Unlicensed" licenseType="Unknown" modified="Fri Aug 14 10:01:10 CEST 2015" modifiedBy="Marek" name="CSV_To_List_ProjectCreate_" preview-file="${Project_Home}/src/main/resources/stash-project-input.csv" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/ProjectCreate" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="8632c6d9-f97b-4b86-a6d9-e78ee7b97656">
+<Record fieldDelimiter="," name="ProjectCreate" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __implementationClass="java.lang.String" __index="0" __sourcePath="{}/ProjectCreate/key" containerType="SINGLE" label="key" name="key" type="string"/>
+<Field __implementationClass="java.lang.String" __index="1" __sourcePath="{}/ProjectCreate/name" containerType="SINGLE" label="name" name="name" type="string"/>
+<Field __implementationClass="java.lang.String" __index="2" __sourcePath="{}/ProjectCreate/description" containerType="SINGLE" label="description" name="description" type="string"/>
+<Field __implementationClass="java.lang.String" __index="3" __sourcePath="{}/ProjectCreate/avatar" containerType="SINGLE" label="avatar" name="avatar" type="string"/>
+</Record>
+</Metadata>
+<Metadata __referenceCounter="1" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _type="Input" id="8d3b5657-84e3-4647-ab1c-9ab8c84f1fb2">
+<Record fieldDelimiter="," name="stash_project_input" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field containerType="SINGLE" label="Key" name="Key" size="10" type="string"/>
+<Field containerType="SINGLE" label="Name" name="Name" size="10" type="string"/>
+<Field containerType="SINGLE" eofAsDelimiter="true" label="Description" name="Description" size="10" type="string"/>
+<Field __artificialType="_id" auto_filling="global_row_count" name="__id" type="long"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="CSV READER" guiX="20" guiY="20" id="DATA_READER0" quoteCharacter="both" quotedStrings="true" skipRows="1" trim="true" type="DATA_READER">
+<attr name="_data_format"><![CDATA[CSV]]></attr>
+<attr name="__dataSourceDefinition"><![CDATA[${Project_Home}/src/main/resources/stash-project-input.csv]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'stash_project_input' -&gt; 'ProjectCreate'" guiX="460" guiY="20" id="FOREACH_STASH_PROJECT_INPUT_PROJECT_CREATE" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = num2str(input.__id);
+//END -> DO NOT REMOVE
+output.key = input.Key;
+output.name = input.Name;
+output.description = input.Description;
+]]></attr>
+</Node>
+<Node enabled="enabled" fileURL="dict:outputPayload" guiName="Map&lt;k,v&gt; WRITER" guiX="900" guiY="20" id="MAP_WRITER0" type="MAP_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:collection clover:name="ProjectCreate" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping">
+  <item clover:inPort="0">
+    <key clover:dataType="java.lang.String">$0.key</key>
+    <name clover:dataType="java.lang.String">$0.name</name>
+    <description clover:dataType="java.lang.String">$0.description</description>
+    <avatar clover:dataType="java.lang.String">$0.avatar</avatar>
+  </item>
+</clover:collection>]]></attr>
+<attr name="_data_format"><![CDATA[MAP]]></attr>
+<attr name="__metadata"><![CDATA[true]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="DATA_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="8d3b5657-84e3-4647-ab1c-9ab8c84f1fb2" outPort="Port 0 (output)" toNode="FOREACH_STASH_PROJECT_INPUT_PROJECT_CREATE:0"/>
+<Edge debugMode="true" fromNode="FOREACH_STASH_PROJECT_INPUT_PROJECT_CREATE:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="8632c6d9-f97b-4b86-a6d9-e78ee7b97656" outPort="Port 0 (out)" toNode="MAP_WRITER0:0"/>
+</Phase>
+</Graph>
