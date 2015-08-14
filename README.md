@@ -22,8 +22,8 @@ Stash Rest API 3.9 or higher
 
 # Use Case <a name="usecase"/>
 This example application shows simplified use of the Stash Connector. It serves as a simple example about how to automatically 
-create Issues from file input. It periodically polls a folder for new files and automatically creates issues from file input. 
-The section immediately below describes the functions of each of the flows in the application. 
+create Projects from file input. It periodically polls a folder for new files and automatically creates projects from file input. 
+The section immediately below describes the functions of each of the flows in the application.
 
 This example assumes that you are familiar with Mule, the Anypoint Studio interface, Global Elements, DataSense, and the DataMapper transformer. Further, it is assumed that you are 
 familiar with Stash and have a Stash account. Learn more about flows and subflows to gain more insight into the design of this example.
@@ -53,7 +53,7 @@ Once you have imported this example into Anypoint Studio you need to follow thes
 + install Jira Rest Connector into Anypoint Studio [Installing connector](#installingConnector)
 + Locate the properties file `common.properties`, in src/main/resources
 + Complete all the properties required as per the examples in the section [Properties to be configured](#propertiestobeconfigured)
-+ Update issue-input.csv from src/main/resources accordingly. Project key `MULETEST` should be replaced with some existig Project key in your JIRA instance. 
++ Update stash-project-input.csv from src/main/resources accordingly. Project key `MULETEST` should be replaced with some existig Project key in your JIRA instance. 
 + Copy stash-project-input.csv from src/main/resources into your 'directory.source' folder
 + Once that is done, right click on project folder 
 + Hover you mouse over `"Run as"`
