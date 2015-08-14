@@ -12,7 +12,7 @@ familiar with Stash and have a Stash account. Learn more about flows and subflow
 Hotovo s.r.o.
 
 == Supported Mule runtime versions
-Mule 3.5.x or higher
+Mule 3.6.x or higher
 
 == Stash supported versions
 Stash 3.9.2 or higher
@@ -118,36 +118,35 @@ TEST,TEST Project,Long description
 
 ```
 
-Datamapper then converts each row fetched from the csv file to a map element. Each map element servers as input map for inserting new issue into configured Stash instance. Result of the operation is logged to console.
+Datamapper then converts each row fetched from the csv file to a map element. Each map element servers as input map for inserting new project into configured Stash instance. Result of the operation is logged to console.
 
 Complete flow:
 ```
-<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:context="http://www.springframework.org/schema/context" xmlns:jirarest="http://www.mulesoft.org/schema/mule/jirarest" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:stash="http://www.mulesoft.org/schema/mule/stash" xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.6.1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
-http://www.mulesoft.org/schema/mule/jirarest http://www.mulesoft.org/schema/mule/jirarest/current/mule-jirarest.xsd
+http://www.mulesoft.org/schema/mule/stash http://www.mulesoft.org/schema/mule/stash/current/mule-stash.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+    <stash:config-type name="Stash__Basic_Authentification" username="${stash.username}" password="${stash.password}" serverUrl="${stash.serverUrl}" doc:name="Stash: Basic Authentification"/>
     <context:property-placeholder location="common.properties"  />
-    <jirarest:config-type name="JiraRest" username="${jira.username}" password="${jira.password}" serverUrl="${jira.host}" doc:name="JiraRest"/>
-    <data-mapper:config name="CSV_To_Issue" transformationGraphPath="csv_to_issue.grf" doc:name="CSV_To_Issue"/>
+    <data-mapper:config name="CSV_To_List_ProjectCreate_" transformationGraphPath="csv_to_list_projectcreate_.grf" doc:name="CSV_To_List_ProjectCreate_"/>
+    
     <flow name="mainFlow" >
         <file:inbound-endpoint path="${directory.source}" moveToDirectory="${directory.target}" responseTimeout="10000" doc:name="File"/>
-        <data-mapper:transform config-ref="CSV_To_Issue" doc:name="CSV To Issue"/>
+        <data-mapper:transform config-ref="CSV_To_List_ProjectCreate_" doc:name="CSV To List&lt;Project&gt;"/>
         <foreach doc:name="For Each">
-            <jirarest:issues-issue-create config-ref="JiraRest" entityType="Issue" doc:name="insert Issue">
-                <jirarest:payload ref="#[payload]"/>
-            </jirarest:issues-issue-create>
+            <stash:projects-project-create config-ref="Stash__Basic_Authentification" entityType="ProjectCreate" doc:name="Stash"/>
             <logger message="#[payload]" level="INFO" doc:name="log response"/>
         </foreach>
         <exception-strategy ref="default-exception-strategy" doc:name="Reference Exception Strategy"/>
     </flow>
     <catch-exception-strategy name="default-exception-strategy">
         <logger message="#[payload]" level="ERROR" doc:name="Log exception"/>
-    </catch-exception-strategy>
+    </catch-exception-strategy>    
 </mule>
 ```
 
