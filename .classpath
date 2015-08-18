@@ -9,5 +9,6 @@
 	<classpathentry kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry kind="src" path="src/main/api"/>
 	<classpathentry kind="con" path="MULE_LIB/Stash/org.mule.tooling.ui.contribution.stash.3.6.0"/>
+	<classpathentry kind="src" path="mappings"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

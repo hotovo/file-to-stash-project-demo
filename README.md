@@ -50,10 +50,10 @@ You can find a detailed description on how to do so in this [Documentation Page]
 ### Running on Studio <a name="runonstudio"/>
 Once you have imported this example into Anypoint Studio you need to follow these steps to run it:
 
-+ install Jira Rest Connector into Anypoint Studio [Installing connector](#installingConnector)
++ Install Stash Connector into Anypoint Studio [Installing connector](#installingConnector)
 + Locate the properties file `common.properties`, in src/main/resources
-+ Complete all the properties required as per the examples in the section [Properties to be configured](#propertiestobeconfigured)
-+ Update stash-project-input.csv from src/main/resources accordingly. Project key `MULETEST` should be replaced with some existig Project key in your JIRA instance. 
++ Complete all the properties required as per the examples in the section Properties to be configured
++ Update stash-project-input.csv from src/main/resources accordingly. Project key `MULETEST` should be replaced with some existig Project key in your Stash instance. 
 + Copy stash-project-input.csv from src/main/resources into your 'directory.source' folder
 + Once that is done, right click on project folder 
 + Hover you mouse over `"Run as"`
